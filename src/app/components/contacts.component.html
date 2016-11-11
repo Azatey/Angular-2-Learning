@@ -1,0 +1,11 @@
+<div *ngIf="selectedContactId">
+    <button (click)="clearSelection()">Clear selection</button>
+</div>
+<ul class="contact-list">
+    <li *ngFor="let id of data">
+        <contact [id]="id"
+                 [selected]="id === selectedContactId"
+                 [details]="(contacts | async).byId[id]"
+                 (onSelected)="handleContactSelection($event)"></contact>
+    </li>
+</ul>

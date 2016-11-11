@@ -1,0 +1,4 @@
+<main>
+    <contacts [data]="(contacts|async).allIds" (onContactSelected)="changeSelectedContact($event)"></contacts>
+    <contact-edit [id]="selectedContactId"></contact-edit>
+</main>

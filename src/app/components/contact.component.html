@@ -1,0 +1,13 @@
+<article class="contact-item"
+         [class.selected]="selected"
+         (click)="handleSelection()">
+    <div>
+        {{details.name}}&nbsp;{{details.surname}}
+    </div>
+    <div>
+        {{details.phoneNumber}}
+    </div>
+    <div>
+        <a class="delete-button" (click)="deleteContact()"></a>
+    </div>
+</article>

@@ -1,0 +1,17 @@
+<div>
+    <div>
+        <label>Name: </label>
+        <input [(ngModel)]="personDetails.name" placeholder="Name" />
+    </div>
+    <div>
+        <label>Surname: </label>
+        <input [(ngModel)]="personDetails.surname" placeholder="Surname" />
+    </div>
+    <div>
+        <label>Phone No: </label>
+        <input type="tel" [(ngModel)]="personDetails.phoneNumber" placeholder="Phone number" />
+    </div>
+    <div>
+        <button (click)="saveChanges()">Save</button>
+    </div>
+</div>
