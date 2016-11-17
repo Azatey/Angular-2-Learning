@@ -1,23 +1,14 @@
-import {combineReducers, Reducer} from "redux";
+import {Reducer} from "redux";
 import {updateObject} from "../utils";
 import {ActionTypes} from "../constants";
-import {ContactHolder} from "../declarations";
 import {IKeyedPerson, ContactIdsCollection} from "../declarations/state.declaration";
 
-const initialState: ContactHolder = {
-    byId: {
-        "ce742a2a-4090-46f2-bf4a-51934d0a1199": {
-            name: "Jon",
-            surname: "Skeet",
-            phoneNumber: "111-222-333"
-        }
-    },
-    allIds: [
-        "ce742a2a-4090-46f2-bf4a-51934d0a1199"
-    ]
+const initialState = {
+    byId: {},
+    allIds: []
 };
 
-const contactsByIdReducer: Reducer<IKeyedPerson> = (state = initialState.byId, action) => {
+const contactsByIdReducer: Reducer<IKeyedPerson> = (state = {}, action) => {
     switch (action.type) {
         case ActionTypes.ADD_CONTACT:
         case ActionTypes.EDIT_CONTACT:
@@ -38,7 +29,7 @@ const contactsByIdReducer: Reducer<IKeyedPerson> = (state = initialState.byId, a
     }
 };
 
-const allContactIdsReducer: Reducer<ContactIdsCollection> = (state = initialState.allIds, action) => {
+const allContactIdsReducer: Reducer<ContactIdsCollection> = (state = [], action) => {
     switch (action.type) {
         case ActionTypes.ADD_CONTACT:
             return [
@@ -60,7 +51,31 @@ const allContactIdsReducer: Reducer<ContactIdsCollection> = (state = initialStat
     }
 };
 
-export default combineReducers<ContactHolder>({
-    byId: contactsByIdReducer,
-    allIds: allContactIdsReducer
-});
+const peopleReducer = (state = initialState, action) => {
+    switch (action.type) {
+        case ActionTypes.POPULATE_CONTACTS:
+            const obj = {
+                byId: {},
+                allIds: []
+            };
+
+            for (let contact of action.data) {
+                obj.byId[contact.id] = {
+                    name: contact.name,
+                    surname: contact.surname,
+                    phoneNumber: contact.phoneNumber
+                };
+                obj.allIds.push(contact.id);
+            }
+            // Map data from service to state
+            return obj;
+        default:
+            return {
+                byId: contactsByIdReducer(state.byId, action),
+                allIds: allContactIdsReducer(state.allIds, action)
+            }
+    }
+};
+
+
+export default peopleReducer;

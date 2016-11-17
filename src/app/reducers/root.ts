@@ -1,7 +1,9 @@
 import {combineReducers, Reducer} from "redux";
-import people from "./people";
+import peopleReducer from "./people.reducer";
+import loadStatusReducer from "./data.reducer";
 import {IAppState} from "../declarations";
 
 export const rootReducer: Reducer<IAppState> = combineReducers<IAppState>({
-    people: people
+    people: peopleReducer,
+    isLoading: loadStatusReducer
 });

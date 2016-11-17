@@ -6,6 +6,9 @@ import {IAppState} from "./declarations/state.declaration";
 import {rootReducer} from "./reducers/root";
 import {AppComponent, ContactsComponent, ContactComponent, ContactEditComponent} from "./components";
 import {ContactManipulations} from "./actions/contact-manipulations";
+import {IContactsServiceType} from "./declarations/contacts-service.declaration";
+import {FakeContactsService} from "./services/fake-contacts.service";
+import thunk from "redux-thunk";
 
 const Redux = NgReduxModule.forRoot();
 
@@ -22,7 +25,11 @@ const Redux = NgReduxModule.forRoot();
         ContactComponent
     ],
     providers: [
-        ContactManipulations
+        ContactManipulations,
+        {
+            provide: IContactsServiceType,
+            useClass: FakeContactsService
+        }
     ],
     bootstrap: [
         AppComponent
@@ -30,6 +37,6 @@ const Redux = NgReduxModule.forRoot();
 })
 export class AppModule {
     constructor(private redux: NgRedux<IAppState>) {
-        redux.configureStore(rootReducer, <IAppState>{}, []);
+        redux.configureStore(rootReducer, <IAppState>{}, [thunk]);
     }
 }
